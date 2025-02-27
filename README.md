@@ -16,7 +16,8 @@
     Every agent deserves a wallet.
   </p>
 
-[![npm downloads](https://img.shields.io/npm/dm/@coinbase/agentkit?style=flat-square)](https://www.npmjs.com/package/@coinbase/agentkit)
+[![pypi downloads](https://img.shields.io/pypi/dm/coinbase-agentkit?label=pypi:coinbase-agentkit&style=flat-square)](https://pypistats.org/packages/coinbase-agentkit)
+[![npm downloads](https://img.shields.io/npm/dm/@coinbase/agentkit?label=npm:@coinbase/agentkit&style=flat-square)](https://www.npmjs.com/package/@coinbase/agentkit)
 [![GitHub star chart](https://img.shields.io/github/stars/coinbase/agentkit?style=flat-square)](https://star-history.com/#coinbase/agentkit)
 [![Open Issues](https://img.shields.io/github/issues-raw/coinbase/agentkit?style=flat-square)](https://github.com/coinbase/agentkit/issues)
 
@@ -34,6 +35,7 @@
 - [🌙 Nightly Builds](#-nightly-builds)
 - [🚨 Security and bug reports](#-security-and-bug-reports)
 - [📧 Contact](#-contact)
+- [🔗 Supported Protocols](#-supported-protocols)
 - [📝 License](#-license)
 - [🔒 Legal and Privacy](#-legal-and-privacy)
 
@@ -51,7 +53,8 @@ AgentKit is [Coinbase Developer Platform's](https://docs.cdp.coinbase.com) frame
 
 ### Node.js
 
-*Prerequisites*:
+_Prerequisites_:
+
 - [Node.js 18+](https://nodejs.org/en/download/)
 - [CDP Secret API Key](https://docs.cdp.coinbase.com/get-started/docs/cdp-api-keys#creating-secret-api-keys)
 - [OpenAI API Key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key)
@@ -59,47 +62,34 @@ AgentKit is [Coinbase Developer Platform's](https://docs.cdp.coinbase.com) frame
 1. Get your agent running:
 
 ```bash
-# Clone the repository
-git clone https://github.com/coinbase/agentkit.git
+# Create a new fullstack agent project
+npm create onchain-agent@latest
 
-# Navigate to the root of the repo
-cd agentkit
+# Navigate to your project directory
+cd onchain-agent
+
+# At this point, fill in your CDP API key name, OpenAI API key, and any other environment variables in the .env.local file.
+# Then, rename the .env.local file to .env
+mv .env.local .env
 
 # Install dependencies
 npm install
 
-# Build the packages locally
-npm run build
-
-# Navigate to the langchain-cdp-chatbot example
-cd typescript/examples/langchain-cdp-chatbot
-
-# At this point, fill in your CDP API key name, private key, and OpenAI API key in
-# the .env.local file.
-# Then, rename the .env.local file to .env
-mv .env.local .env
-
-# Run the chatbot
-npm run start
+# Run the development server
+npm run dev
 ```
-2. Select "1. chat mode" and start telling your Agent to do things onchain!
+
+2. Visit `http://localhost:3000` in your browser and start telling your Agent to do things onchain!
 
 ```bash
-Prompt: Fund my wallet with some testnet ETH.
--------------------
-Wallet: ccaf1dbf-3a90-4e52-ad34-89a07aad9e8b on network: base-sepolia with default address: 0xD9b990c7b0079c1c3733D2918Ee50b68f29FCFD5
--------------------
-
--------------------
-Received eth from the faucet. Transaction: https://sepolia.basescan.org/tx/0x03e82934cd04be5b725927729b517c606f6f744611f0f36e834f21ad742ad7ca
--------------------
-Your wallet has been successfully funded with testnet ETH. You can view the transaction [here](https://sepolia.basescan.org/tx/0x03e82934cd04be5b725927729b517c606f6f744611f0f36e834f21ad742ad7ca).
--------------------
+User: Fund my wallet with some testnet ETH.
+Agent: Your wallet has been successfully funded with testnet ETH. You can view the transaction [here](https://sepolia.basescan.org/tx/0x03e82934cd04be5b725927729b517c606f6f744611f0f36e834f21ad742ad7ca)
 ```
 
 ### Python
 
-*Prerequisites*:
+_Prerequisites_:
+
 - [Python 3.10+](https://www.python.org/downloads/)
 - [Poetry](https://python-poetry.org/docs/)
 - [CDP Secret API Key](https://docs.cdp.coinbase.com/get-started/docs/cdp-api-keys#creating-secret-api-keys)
@@ -108,14 +98,13 @@ Your wallet has been successfully funded with testnet ETH. You can view the tran
 1. Get your agent running:
 
 ```bash
-# Clone the repository
-git clone https://github.com/coinbase/agentkit.git
+# Create a new agent chatbot
+pipx run create-onchain-agent
 
-# Navigate to the chatbot-python example
-cd agentkit/python/examples/langchain-cdp-chatbot 
+# Navigate to your project directory
+cd onchain-agent
 
-# At this point, fill in your CDP API key name, private key, and OpenAI API key in the
-# .env.local file.
+# At this point, fill in your CDP API key name, OpenAI API key, and any other environment variables in the .env.local file.
 # Then, rename the .env.local file to .env
 mv .env.local .env
 
@@ -125,6 +114,7 @@ poetry install
 # Run the chatbot
 poetry run python chatbot.py
 ```
+
 2. Select "1. chat mode" and start telling your Agent to do things onchain!
 
 ```bash
@@ -142,12 +132,13 @@ Your wallet has been successfully funded with testnet ETH. You can view the tran
 
 ## 🗂 Repository Structure
 
-AgentKit is organized as a monorepo that contains multiple packages.
+AgentKit is organized as two monorepos, one for Python and one for Typescript, each containing multiple packages.
 
 ```
 agentkit/
 ├── typescript/
 │   ├── agentkit/
+│   ├── create-onchain-agent/
 │   ├── framework-extensions/
 │   |   └── langchain/
 │   └── examples/
@@ -158,6 +149,7 @@ agentkit/
 │       └── langchain-twitter-chatbot/
 ├── python/
 │   ├── coinbase-agentkit/
+│   ├── create-onchain-agent/
 │   ├── framework-extensions/
 │   |   └── langchain/
 │   └── examples/
@@ -231,20 +223,43 @@ See [SECURITY.md](SECURITY.md) for more information.
 
 ## 📧 Contact
 
-For feature requests, feedback, or questions, please reach out to us via the 
+For feature requests, feedback, or questions, please reach out to us via the
 [Coinbase Developer Platform Discord](https://discord.com/channels/1220414409550336183/1304126107876069376).
 
-## Supported Protocols
+## 🔗 Supported Protocols
 
-AgentKit is proud to have support for the following protocols, frameworks, and wallet providers:
+AgentKit is proud to have support for the following protocols, frameworks, wallets and networks:
+
+### Wallets
+
+<a href="https://coinbase.com" target="_blank"><img src="./assets/wallets/coinbase.svg" width="100" height="auto" alt="Coinbase"></a>
+<a href="https://privy.io" target="_blank"><img src="./assets/wallets/privy.svg" width="100" height="auto" alt="Privy"></a>
+<a href="https://viem.sh" target="_blank"><img src="./assets/wallets/viem.svg" width="100" height="auto" alt="ViEM"></a>
+
+### Protocols
 
 <a href="https://www.alchemy.com/" target="_blank"><img src="./assets/protocols/alchemy.svg" width="100" height="auto" alt="Alchemy"></a>
-<a href="https://base.org" target="_blank"><img src="./assets/protocols/base.svg" width="100" height="auto" alt="Base"></a>
+<a href="https://compound.finance/" target="_blank"><img src="./assets/protocols/compound.svg" width="100" height="auto" alt="Compound"></a>
 <a href="https://farcaster.xyz" target="_blank"><img src="./assets/protocols/farcaster.svg" width="100" height="auto" alt="Farcaster"></a>
+<a href="https://jup.ag" target="_blank"><img src="./assets/protocols/jupiter.svg" width="100" height="auto" alt="Jupiter"></a>
 <a href="https://www.moonwell.fi" target="_blank"><img src="./assets/protocols/moonwell.svg" width="100" height="auto" alt="Moonwell"></a>
 <a href="https://app.morpho.org" target="_blank"><img src="./assets/protocols/morpho.svg" width="100" height="auto" alt="Morpho"></a>
-<a href="https://privy.io" target="_blank"><img src="./assets/protocols/privy.svg" width="100" height="auto" alt="Privy"></a>
 <a href="https://pyth.network" target="_blank"><img src="./assets/protocols/pyth.svg" width="100" height="auto" alt="Pyth"></a>
+<a href="https://superfluid.org" target="_blank"><img src="./assets/protocols/superfluid.svg" width="100" height="auto" alt="Superfluid"></a>
+<a href="https://zora.co" target="_blank"><img src="./assets/protocols/zora.svg" width="100" height="auto" alt="Zora"></a>
+
+### Frameworks
+
+<a href="https://langchain.com" target="_blank"><img src="./assets/frameworks/langchain.svg" width="100" height="auto" alt="Langchain"></a>
+<a href="https://www.elizaos.ai" target="_blank"><img src="./assets/frameworks/eliza.svg" width="100" height="auto" alt="Eliza"></a>
+
+### Networks
+
+<a href="https://base.org" target="_blank"><img src="./assets/networks/base.svg" width="100" height="auto" alt="Base"></a>
+<a href="https://ethereum.org" target="_blank"><img src="./assets/networks/ethereum.svg" width="100" height="auto" alt="Ethereum"></a>
+<a href="https://solana.com" target="_blank"><img src="./assets/networks/solana.svg" width="100" height="auto" alt="Solana"></a>
+
+Note: We support all EVM and SVM networks, with deep protocol support for the above networks. Please don't hesitate to make contributions to add more support for your preferred networks.
 
 ## 📝 License
 
